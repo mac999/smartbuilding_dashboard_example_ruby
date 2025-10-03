@@ -16,25 +16,25 @@ This is a **demonstration project** built with Ruby on Rails to showcase the **d
 
 ## Features
 
-### 🏢 Smart Building KPIs
+### Smart Building KPIs
 - **Energy Consumption Monitoring**: Real-time power usage tracking with trend analysis
 - **Occupancy Management**: Current building occupancy with floor-by-floor breakdown
 - **Temperature Control**: Multi-floor temperature monitoring with status indicators
 - **Air Quality Tracking**: AQI, CO2, humidity, and PM2.5 measurements
 
-### 📊 Interactive Charts & Visualizations
+### Interactive Charts & Visualizations
 - **Monthly Energy Consumption**: Bar charts showing historical energy usage
 - **Floor Occupancy Distribution**: Doughnut charts for space utilization
 - **Hourly Occupancy Trends**: Line charts tracking daily patterns
 - **Mini Trend Charts**: Compact visualizations in KPI cards
 
-### 🖥️ Modern UI/UX
+### Modern UI/UX
 - **Dark Theme Design**: Professional dark mode interface
 - **Glassmorphism Effects**: Modern blur and transparency effects
 - **Responsive Grid Layout**: Mobile-friendly responsive design
 - **Smooth Animations**: Hover effects and fade-in animations
 
-### 🔧 System Monitoring
+### System Monitoring
 - **Security Status**: Camera monitoring and access logs
 - **Maintenance Tracking**: Equipment status and scheduled tasks
 - **Equipment Health**: HVAC, elevators, lighting, and security systems
@@ -125,13 +125,13 @@ blog/
 - **Built-in Helpers**: ERB templates with Ruby integration
 - **Asset Pipeline**: Automatic CSS/JS management
 
-#### 🏗️ Framework Benefits
+#### Framework Benefits
 - **Convention over Configuration**: Minimal setup required
 - **Scaffolding Capabilities**: Quick controller/view generation
 - **Integrated Tooling**: Built-in server, testing, and more
 - **Rich Ecosystem**: Extensive gem library
 
-#### 📈 Development Metrics
+#### Development Metrics
 From concept to working dashboard: **~2 hours**
 - Controller setup: 15 minutes
 - View template: 45 minutes  
@@ -172,14 +172,14 @@ end
 
 ## Rails Advantages Demonstrated
 
-### ✅ Pros
+### Pros
 - **Extremely Fast Prototyping**: Working application in hours
 - **Convention-Driven**: Minimal configuration needed
 - **Full-Stack Solution**: Everything included out of the box
 - **Mature Ecosystem**: Proven patterns and extensive libraries
 - **Developer Productivity**: Focus on business logic, not boilerplate
 
-### ⚠️ Considerations
+### Considerations
 - **Opinionated Framework**: Less flexibility in architecture decisions
 - **Learning Curve**: Rails conventions must be learned
 - **Performance**: May require optimization for high-traffic applications
@@ -244,4 +244,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 This Smart Building KPI Dashboard demonstrates Rails' ability to rapidly prototype and deploy feature-rich web applications. The combination of convention-driven development, integrated tooling, and rich ecosystem makes Rails an excellent choice for rapid web application development.
 
-**Total development time: ~2 hours from concept to deployment** 🚀
+**Total development time: ~2 hours from concept to deployment**
