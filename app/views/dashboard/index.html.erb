@@ -1,0 +1,402 @@
+<% content_for :layout, "dashboard" %>
+
+<div class="dashboard-container">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <div class="logo-section">
+        <i class="fas fa-building"></i>
+        <h1>Smart Building Dashboard</h1>
+      </div>
+      <div class="header-info">
+        <div class="date-time">
+          <i class="far fa-clock"></i>
+          <span id="current-time"><%= Time.current.strftime("%Y-%m-%d %H:%M") %></span>
+        </div>
+        <div class="building-status">
+          <span class="status-indicator active"></span>
+          <span>Building Online</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Dashboard -->
+  <main class="dashboard-main">
+    <!-- KPI Cards Row -->
+    <section class="kpi-grid">
+      <!-- Energy Consumption Card -->
+      <div class="kpi-card energy">
+        <div class="card-header">
+          <div class="card-icon energy-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="card-title">
+            <h3>Energy Consumption</h3>
+            <span class="subtitle">Today</span>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="main-metric">
+            <span class="value"><%= @energy_consumption[:today] %></span>
+            <span class="unit">kWh</span>
+          </div>
+          <div class="change-indicator <%= @energy_consumption[:change_percentage] > 0 ? 'positive' : 'negative' %>">
+            <i class="fas fa-arrow-<%= @energy_consumption[:change_percentage] > 0 ? 'up' : 'down' %>"></i>
+            <span><%= @energy_consumption[:change_percentage].abs %>%</span>
+          </div>
+        </div>
+        <div class="mini-chart">
+          <canvas id="energyMiniChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Occupancy Card -->
+      <div class="kpi-card occupancy">
+        <div class="card-header">
+          <div class="card-icon occupancy-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="card-title">
+            <h3>Occupancy</h3>
+            <span class="subtitle">Current</span>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="main-metric">
+            <span class="value"><%= @occupancy[:current] %></span>
+            <span class="unit">/ <%= @occupancy[:capacity] %></span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: <%= @occupancy[:percentage] %>%"></div>
+          </div>
+          <div class="percentage"><%= @occupancy[:percentage] %>% Occupied</div>
+        </div>
+      </div>
+
+      <!-- Temperature Card -->
+      <div class="kpi-card temperature">
+        <div class="card-header">
+          <div class="card-icon temperature-icon">
+            <i class="fas fa-thermometer-half"></i>
+          </div>
+          <div class="card-title">
+            <h3>Temperature</h3>
+            <span class="subtitle">Average</span>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="main-metric">
+            <span class="value"><%= @temperature[:current] %></span>
+            <span class="unit">°C</span>
+          </div>
+          <div class="target-temp">
+            Target: <%= @temperature[:target] %>°C
+          </div>
+        </div>
+      </div>
+
+      <!-- Air Quality Card -->
+      <div class="kpi-card air-quality">
+        <div class="card-header">
+          <div class="card-icon air-icon">
+            <i class="fas fa-wind"></i>
+          </div>
+          <div class="card-title">
+            <h3>Air Quality</h3>
+            <span class="subtitle">AQI</span>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="main-metric">
+            <span class="value"><%= @air_quality[:aqi] %></span>
+            <span class="status <%= @air_quality[:status] %>"><%= @air_quality[:status].capitalize %></span>
+          </div>
+          <div class="air-details">
+            <div class="air-item">
+              <span>CO₂</span>
+              <span><%= @air_quality[:co2] %> ppm</span>
+            </div>
+            <div class="air-item">
+              <span>Humidity</span>
+              <span><%= @air_quality[:humidity] %>%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="charts-section">
+      <div class="chart-row">
+        <!-- Monthly Energy Consumption Chart -->
+        <div class="chart-card large">
+          <div class="chart-header">
+            <h3>Monthly Energy Consumption</h3>
+            <div class="chart-controls">
+              <select class="chart-select">
+                <option>Last 10 Months</option>
+                <option>Last 12 Months</option>
+                <option>This Year</option>
+              </select>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="monthlyEnergyChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Occupancy by Floor -->
+        <div class="chart-card medium">
+          <div class="chart-header">
+            <h3>Occupancy by Floor</h3>
+          </div>
+          <div class="chart-container">
+            <canvas id="floorOccupancyChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <!-- Temperature by Floor -->
+        <div class="chart-card medium">
+          <div class="chart-header">
+            <h3>Temperature by Floor</h3>
+          </div>
+          <div class="floor-temps">
+            <% @temperature[:floors].each do |floor| %>
+              <div class="floor-temp-item">
+                <div class="floor-info">
+                  <span class="floor-number">Floor <%= floor[:floor] %></span>
+                  <span class="temp-value"><%= floor[:temp] %>°C</span>
+                </div>
+                <div class="temp-status <%= floor[:status] %>">
+                  <span class="status-dot"></span>
+                  <span><%= floor[:status].capitalize %></span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Hourly Occupancy Trend -->
+        <div class="chart-card medium">
+          <div class="chart-header">
+            <h3>Hourly Occupancy</h3>
+            <span class="chart-subtitle">Today</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="hourlyOccupancyChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status Cards -->
+    <section class="status-section">
+      <div class="status-grid">
+        <!-- Security Status -->
+        <div class="status-card security">
+          <div class="status-header">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Security</h3>
+          </div>
+          <div class="status-content">
+            <div class="status-item">
+              <span>Active Cameras</span>
+              <span class="value"><%= @security[:active_cameras] %>/<%= @security[:total_cameras] %></span>
+            </div>
+            <div class="status-item">
+              <span>Access Logs Today</span>
+              <span class="value"><%= @security[:access_logs] %></span>
+            </div>
+            <div class="status-item">
+              <span>Active Alerts</span>
+              <span class="value alert"><%= @security[:alerts] %></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Maintenance Status -->
+        <div class="status-card maintenance">
+          <div class="status-header">
+            <i class="fas fa-tools"></i>
+            <h3>Maintenance</h3>
+          </div>
+          <div class="status-content">
+            <div class="status-item">
+              <span>Pending Tasks</span>
+              <span class="value"><%= @maintenance[:pending_tasks] %></span>
+            </div>
+            <div class="status-item">
+              <span>Completed Today</span>
+              <span class="value"><%= @maintenance[:completed_today] %></span>
+            </div>
+            <div class="next-task">
+              <span class="next-label">Next Scheduled:</span>
+              <span class="task-name"><%= @maintenance[:next_scheduled] %></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Equipment Status -->
+        <div class="status-card equipment">
+          <div class="status-header">
+            <i class="fas fa-cogs"></i>
+            <h3>Equipment Status</h3>
+          </div>
+          <div class="status-content">
+            <% @maintenance[:equipment_status].each do |equipment, status| %>
+              <div class="equipment-item">
+                <span class="equipment-name"><%= equipment.to_s.upcase %></span>
+                <span class="equipment-status <%= status.gsub('_', '-') %>">
+                  <span class="status-dot"></span>
+                  <%= status.humanize %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // Chart.js 설정
+  Chart.defaults.color = '#e2e8f0';
+  Chart.defaults.borderColor = '#334155';
+  Chart.defaults.backgroundColor = 'rgba(99, 102, 241, 0.1)';
+
+  // Energy Mini Chart
+  const energyMiniCtx = document.getElementById('energyMiniChart').getContext('2d');
+  new Chart(energyMiniCtx, {
+    type: 'line',
+    data: {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [{
+        data: <%= @energy_consumption[:weekly_data].to_json.html_safe %>,
+        borderColor: '#10b981',
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { display: false },
+        y: { display: false }
+      },
+      elements: { point: { radius: 0 } }
+    }
+  });
+
+  // Monthly Energy Chart
+  const monthlyEnergyCtx = document.getElementById('monthlyEnergyChart').getContext('2d');
+  new Chart(monthlyEnergyCtx, {
+    type: 'bar',
+    data: {
+      labels: <%= @monthly_energy.map { |d| d[:month] }.to_json.html_safe %>,
+      datasets: [{
+        label: 'Energy Consumption (kWh)',
+        data: <%= @monthly_energy.map { |d| d[:consumption] }.to_json.html_safe %>,
+        backgroundColor: 'rgba(99, 102, 241, 0.8)',
+        borderColor: '#6366f1',
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: '#334155' },
+          ticks: { color: '#94a3b8' }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { color: '#94a3b8' }
+        }
+      }
+    }
+  });
+
+  // Floor Occupancy Chart
+  const floorOccupancyCtx = document.getElementById('floorOccupancyChart').getContext('2d');
+  new Chart(floorOccupancyCtx, {
+    type: 'doughnut',
+    data: {
+      labels: <%= @floor_occupancy.map { |d| d[:floor] }.to_json.html_safe %>,
+      datasets: [{
+        data: <%= @floor_occupancy.map { |d| d[:occupancy] }.to_json.html_safe %>,
+        backgroundColor: [
+          '#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { usePointStyle: true, color: '#e2e8f0' }
+        }
+      }
+    }
+  });
+
+  // Hourly Occupancy Chart
+  const hourlyOccupancyCtx = document.getElementById('hourlyOccupancyChart').getContext('2d');
+  new Chart(hourlyOccupancyCtx, {
+    type: 'line',
+    data: {
+      labels: ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM'],
+      datasets: [{
+        label: 'Occupancy',
+        data: <%= @occupancy[:hourly_data].to_json.html_safe %>,
+        borderColor: '#f59e0b',
+        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: '#334155' },
+          ticks: { color: '#94a3b8' }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { color: '#94a3b8' }
+        }
+      }
+    }
+  });
+
+  // Real-time clock update
+  function updateTime() {
+    const now = new Date();
+    const timeString = now.toISOString().slice(0, 16).replace('T', ' ');
+    document.getElementById('current-time').textContent = timeString;
+  }
+  setInterval(updateTime, 60000);
+</script>

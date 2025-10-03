@@ -1,0 +1,22 @@
+  [1m[35m (123.6ms)[0m  [1m[35mCREATE DATABASE "blog_development" ENCODING = 'unicode'[0m
+  [1m[35m (93.9ms)[0m  [1m[35mCREATE DATABASE "blog_test" ENCODING = 'unicode'[0m
+Started GET "/" for 127.0.0.1 at 2025-10-03 18:48:29 +0900
+  [1m[35m (8.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (6.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /home/ktw/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/railties-7.1.5.2/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /home/ktw/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/railties-7.1.5.2/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.5ms | Allocations: 378)
+Completed 200 OK in 10ms (Views: 3.6ms | ActiveRecord: 0.0ms | Allocations: 7902)
+
+
+Started GET "/dashboard" for ::1 at 2025-10-03 19:03:41 +0900
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by DashboardController#index as HTML
+  Rendering layout layouts/dashboard.html.erb
+  Rendering dashboard/index.html.erb within layouts/dashboard
+  Rendered dashboard/index.html.erb within layouts/dashboard (Duration: 1.2ms | Allocations: 1920)
+  Rendered layout layouts/dashboard.html.erb (Duration: 175.9ms | Allocations: 104154)
+Completed 200 OK in 180ms (Views: 177.5ms | ActiveRecord: 0.0ms | Allocations: 108259)
+
+
