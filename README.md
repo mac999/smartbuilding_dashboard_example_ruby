@@ -3,6 +3,9 @@
 
 This is a **demonstration project** built with Ruby on Rails to showcase the **development speed and capabilities** of the Rails framework. The project implements a Smart Building KPI Dashboard with dark theme UI and interactive charts to visualize building operational data.
 
+<img src="./img1.png" height="150" />
+<img src="./img2.png" height="150" />
+
 ### Purpose
 - **Evaluate Rails development velocity** compared to other frameworks
 - **Demonstrate Rails conventions** and rapid prototyping capabilities
