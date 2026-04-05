@@ -1,9 +1,4 @@
 # Smart Building KPI Dashboard - Rails Example
-
-![Ruby on Rails](https://img.shields.io/badge/Ruby%20on%20Rails-7.1.5-red)
-![Ruby Version](https://img.shields.io/badge/Ruby-3.2.2-red)
-![License](https://img.shields.io/badge/License-MIT-blue)
-
 ## Project Overview
 
 This is a **demonstration project** built with Ruby on Rails to showcase the **development speed and capabilities** of the Rails framework. The project implements a Smart Building KPI Dashboard with dark theme UI and interactive charts to visualize building operational data.
@@ -119,7 +114,7 @@ blog/
 
 ### What This Project Showcases
 
-#### ⚡ Rapid Development
+#### Rapid Development
 - **Zero Configuration**: Rails conventions eliminate boilerplate
 - **MVC Pattern**: Clear separation of concerns
 - **Built-in Helpers**: ERB templates with Ruby integration
@@ -227,21 +222,9 @@ end
 - **Docker**: Container-based deployment
 - **AWS/GCP**: Cloud platform deployment
 
-## Contributing
-
-This project serves as a Rails demonstration. Contributions that showcase additional Rails features are welcome:
-
-1. Fork the repository
-2. Create a feature branch
-3. Add Rails-specific features or improvements
-4. Submit a pull request
+## Contact
+Developed by [laputa99999@gmail.com]([laputa99999@gmail.com)
 
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
-
-## Conclusion
-
-This Smart Building KPI Dashboard demonstrates Rails' ability to rapidly prototype and deploy feature-rich web applications. The combination of convention-driven development, integrated tooling, and rich ecosystem makes Rails an excellent choice for rapid web application development.
-
-**Total development time: ~2 hours from concept to deployment**
